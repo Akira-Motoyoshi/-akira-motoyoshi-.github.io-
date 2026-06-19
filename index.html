@@ -3,18 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Messi & Ronaldo 3D Career Atlas</title>
+    <title>Messi 3D Career Atlas</title>
     <meta
       name="description"
-      content="MapLibre GL JS and OpenFreeMap powered 3D story map tracing Lionel Messi's life and career, with Cristiano Ronaldo as a contrasting route."
+      content="MapLibre GL JS and OpenFreeMap powered 3D story map tracing Lionel Messi's life and career."
     >
     <link rel="preconnect" href="https://unpkg.com">
     <link rel="preconnect" href="https://tiles.openfreemap.org">
+    <link rel="preconnect" href="https://commons.wikimedia.org">
     <link href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css" rel="stylesheet">
     <link href="./style.css" rel="stylesheet">
+    <link href="./enhancements.css" rel="stylesheet">
   </head>
   <body>
-    <main class="story-shell" aria-label="Messi and Ronaldo 3D story map">
+    <main class="story-shell" aria-label="Messi 3D story map">
       <div id="map" aria-hidden="true"></div>
       <div class="map-vignette" aria-hidden="true"></div>
 
@@ -26,7 +28,7 @@
       <aside class="scene-panel" aria-live="polite">
         <div class="panel-topline">
           <span id="scene-person" class="person-pill">Messi</span>
-          <span id="scene-counter">01 / 18</span>
+          <span id="scene-counter">01 / 12</span>
         </div>
         <p id="scene-year" class="scene-year">1987</p>
         <h2 id="scene-title">Rosario</h2>
@@ -48,7 +50,6 @@
 
       <div class="legend" aria-label="Route legend">
         <span><i class="legend-line messi"></i>Messi</span>
-        <span><i class="legend-line ronaldo"></i>Ronaldo</span>
       </div>
     </main>
 
@@ -58,7 +59,9 @@
 
     <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
     <script src="./data/scenes.js"></script>
+    <script src="./data/messi-scenes.js"></script>
     <script src="./main.js"></script>
     <script src="./init-fallback.js"></script>
+    <script src="./enhancements.js"></script>
   </body>
 </html>
