@@ -8,6 +8,11 @@ const els = {
   year: document.querySelector("#scene-year"),
   title: document.querySelector("#scene-title"),
   place: document.querySelector("#scene-place"),
+  photo: document.querySelector("#scene-photo"),
+  photoCredit: document.querySelector("#photo-credit"),
+  kitCard: document.querySelector("#kit-card"),
+  kitShirt: document.querySelector("#kit-shirt"),
+  kitLabel: document.querySelector("#kit-label"),
   distance: document.querySelector("#scene-distance"),
   coordinates: document.querySelector("#scene-coordinates"),
   progress: document.querySelector("#timeline-progress"),
@@ -62,6 +67,45 @@ function clamp(value, min, max) {
 
 function formatCoordinates([lon, lat]) {
   return `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+}
+
+function commonsImageUrl(file, width = 520) {
+  return `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=${width}`;
+}
+
+function setCredit(photo) {
+  els.photoCredit.textContent = "";
+  const source = document.createElement("a");
+  source.href = photo.source;
+  source.target = "_blank";
+  source.rel = "noopener";
+  source.textContent = photo.credit;
+  const license = document.createElement("a");
+  license.href = photo.licenseUrl;
+  license.target = "_blank";
+  license.rel = "noopener";
+  license.textContent = photo.license;
+  els.photoCredit.append("Photo: ", source, " / ", license);
+}
+
+function updateVisuals(scene) {
+  if (scene.photo) {
+    els.photo.src = commonsImageUrl(scene.photo.file);
+    els.photo.alt = scene.photo.alt;
+    setCredit(scene.photo);
+  }
+
+  if (scene.kit) {
+    els.kitCard.hidden = false;
+    els.kitCard.setAttribute("aria-label", `${scene.kit.label} kit`);
+    els.kitLabel.textContent = scene.kit.label;
+    els.kitShirt.className = `kit-shirt ${scene.kit.pattern}`;
+    els.kitShirt.style.setProperty("--kit-a", scene.kit.primary);
+    els.kitShirt.style.setProperty("--kit-b", scene.kit.secondary);
+    els.kitShirt.style.setProperty("--kit-c", scene.kit.accent || "#ffffff");
+  } else {
+    els.kitCard.hidden = true;
+  }
 }
 
 function distanceKm(a, b) {
@@ -133,6 +177,7 @@ function updatePanel(index) {
   els.place.textContent = `${scene.city}, ${scene.country}`;
   els.coordinates.textContent = formatCoordinates(scene.coordinates);
   els.distance.textContent = `${Math.round(cumulativeDistances[index]).toLocaleString()} km route`;
+  updateVisuals(scene);
   els.progress.style.width = `${((index + 1) / scenes.length) * 100}%`;
   document.querySelectorAll(".scene-dot").forEach((button, buttonIndex) => {
     const active = buttonIndex === index;
